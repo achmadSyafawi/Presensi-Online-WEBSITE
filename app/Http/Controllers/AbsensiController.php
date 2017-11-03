@@ -113,6 +113,7 @@ class AbsensiController extends Controller
         $nidn = DB::select("SELECT nidn, month(tgl) as tgl FROM absensi WHERE id = {$id}");
         $hari_libur = DB::select("SELECT * from hari_libur WHERE month(date) = {$nidn[0]->tgl}");
         $hari_libur = count($hari_libur);
+        //dd($hari_libur);
 
         $start_date = date('Y').'-'.$nidn[0]->tgl.'-1';
         $end_date = date("Y-m-t", strtotime($start_date));
@@ -128,7 +129,7 @@ class AbsensiController extends Controller
         pegawai.name as name, 
         tgl as bulan, 
         COUNT(tgl) as masuk,
-        (Day(LAST_Day(tgl))- COUNT(tgl)-{$dayOfWeekend}-{$hari_libur}) as tidak_masuk, 
+        (Day(LAST_Day(tgl))-COUNT(tgl)-{$dayOfWeekend}-{$hari_libur}) as tidak_masuk, 
         DAY(LAST_DAY(tgl)) as days 
         FROM absensi, pegawai 
         where absensi.nidn = {$nidn[0]->nidn} AND type = '1' 
@@ -144,7 +145,7 @@ class AbsensiController extends Controller
             $bulan = date_format($tgl,"M Y");
             array_push($dataArray[$row->nidn]['data'], ["masuk", $row->masuk]);   
         }
-        // dd(json_encode($dataArray));
+        //dd(json_encode($data));
         return view('admin.absensi.viewGraf', compact('data','bulan','id','hari_libur', 'dayOfWeekend'));
     }
 

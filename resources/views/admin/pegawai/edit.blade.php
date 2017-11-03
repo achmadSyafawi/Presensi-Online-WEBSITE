@@ -20,7 +20,7 @@
 			    			<!--start formgroup-->
 			    <div class="form-group">
 			        {!! Form::label('nidn', 'NIDN:') !!}
-			        {!! Form::text('nidn',null,['class'=>'form-control','required']) !!}
+			        {!! Form::text('nidn',null,['class'=>'form-control','required','readonly']) !!}
 		    	</div>
 				<div class="row">
                     <div class="form-group col-md-12 col-sm-12 ">

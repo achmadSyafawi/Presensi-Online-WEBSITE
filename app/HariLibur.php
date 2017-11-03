@@ -9,6 +9,6 @@ class HariLibur extends Model
     protected $table = 'hari_libur'; // table name
     protected $primaryKey = 'id'; // default id
     
-    protected $fillable = ['date','summary'];
+    protected $fillable = ['date', 'summary'];
 
 }

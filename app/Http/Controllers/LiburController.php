@@ -34,23 +34,31 @@ class LiburController extends Controller
                 $current = $start;
                 while ($start->lt($end)) {
                     $preparing[$id]['summary'] = $item->summary;
-                    $preparing[$id]['date'] = $current;
+                    $preparing[$id]['date'] = $current->format('Y-m-d');
                     $current = $current->addDay();
                     $id++;
                 }
             } else {
                 // single dates
                 $preparing[$id]['summary'] = $item->summary;
-                $preparing[$id]['date'] = $start;
+                $preparing[$id]['date'] = $start->format('Y-m-d');
                 $id++;
             }
         }
+        //$sync = HariLibur::firstOrCreate($preparing);
+        //dd($preparing);
         // checking data
+        // foreach($preparing as $key => $dates)
+        // {
+        //     $sync = HariLibur::firstOrFail($dates);
+        // }
         foreach($preparing as $key => $dates)
         {
-            HariLibur::firstOrCreate($dates);
+            // $datesObj = (Object)$dates;
+            // dd($datesObj);
+            $sync = HariLibur::firstOrCreate($dates);
         }
-        // echo json_encode($preparing);
+        //echo json_encode($preparing);
         return redirect('admin/absensi');
     }
 }

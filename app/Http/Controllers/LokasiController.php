@@ -8,6 +8,7 @@ use App\Http\Requests;
 
 // load model
 use App\Lokasi;
+use Validator;
 
 class LokasiController extends Controller
 {
@@ -27,9 +28,22 @@ class LokasiController extends Controller
     public function store(Request $request)
     {
         $lokasi = $request->all();
+        $rules = [
+            'longi' => 'required|numeric',
+            'lati' => 'required|numeric'
+        ];
         
-        //dd($category);
+        $message = [
+            'ada yang salah dalam pengisian kolom longitute',
+            'ada yang salah dalam pengisian kolom latitude'    
+        ];
 
+        $validator = Validator::make($lokasi, $rules, $message);
+        
+        if($validator->fails())
+        {
+            return redirect('admin/lokasi/create')->withErrors($validator)->withInput();
+        }
         Lokasi::create($lokasi);
 
         return redirect('admin/lokasi');
@@ -58,6 +72,21 @@ class LokasiController extends Controller
     public function update($id, Request $request)
     {
         $lokasiUpdate = $request->all();
+        $rules = [
+            'longi' => 'required|numeric',
+            'lati' => 'required|numeric'
+        ];
+        
+        $message = [
+            'ada yang salah dalam pengisian data longitude atau latitude'    
+        ];
+
+        $validator = Validator::make($lokasiUpdate, $rules, $message);
+        
+        if($validator->fails())
+        {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
         $lokasi = Lokasi::find($id);
         
         $lokasi->update($lokasiUpdate);

@@ -30,14 +30,15 @@ class PegawaiController extends Controller
     {
         $pegawai = $request->all();
         $rules = [
-            'nidn' => 'unique:pegawai'
+            'nidn' => 'required|unique:pegawai|numeric',
+            'password' => 'required|Min:6'
         ];
         
         $message = [
-            'NIDN sudah ada'    
+            'ada yang salah dalam pengisian kolom'   
         ];
 
-        $validator = Validator::make($pegawai, $rules, $message);
+        $validator = Validator::make($pegawai, $rules);
 
         if($validator->fails())
         {
